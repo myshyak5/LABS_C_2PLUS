@@ -120,5 +120,5 @@ bool Write(int n, std::string words[N_max])
     {
         outt << words[i] << std::endl;
     }
-    return true
+    return true;
 }
