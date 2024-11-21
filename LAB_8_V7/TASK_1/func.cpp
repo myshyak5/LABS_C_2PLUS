@@ -111,7 +111,7 @@ void Sort(int cnt, std::string words[N_max], int CountLetters[N_max])
 
 bool Write(int n, std::string words[N_max])
 {
-    std::ofstream outt("outputt.txt");
+    std::ofstream outt("output.txt");
     if (!outt.is_open())
     {
         return false;
