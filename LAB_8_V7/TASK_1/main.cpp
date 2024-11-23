@@ -5,7 +5,6 @@ int main()
     int n;
     int cnt = 0;
     std::string words[N_max];
-    int CountLetters[N_max];
     
     if (!Read(n, cnt, words))
     {
@@ -14,8 +13,7 @@ int main()
     }
     ClearElements(cnt, words);
     NewWords(cnt, words);
-    CountLettersInWord(cnt, words, CountLetters);
-    Sort(cnt, words, CountLetters);
+    Sort(cnt, words);
     if (n <= cnt)
     {
         if (!Write(n, words))
