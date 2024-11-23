@@ -5,6 +5,7 @@ int main()
     int cnt = 0;
     std::string words[N_max];
     int CountSogl[N_max];
+    
     if (!Read(cnt, words))
     {
         std::cerr << "Input File Error" << std::endl;
@@ -21,11 +22,8 @@ int main()
         ClearGl(cnt, words);
         SortPalindrom(cnt, words, CountSogl);
     }
-    if (!Write(cnt, words))
-    { 
-        std::cerr << "Output File Error" <<std::endl;
-        return -1;
-    }
+    ClearEmpty(cnt, words);
+    Write(cnt, words);
     
     return 0;
 }
