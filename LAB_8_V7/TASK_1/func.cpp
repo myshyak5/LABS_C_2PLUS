@@ -80,30 +80,20 @@ void NewWords(int& cnt, std::string words[N_max])
                     words[c] = words[c + 1];
                 }
                 cnt--;
-
             }
         }
     }
 }
 
-void CountLettersInWord(int cnt, std::string words[N_max], int CountLetters[N_max])
-{
-    for (int i = 0; i < cnt; i++)
-    {
-        CountLetters[i] = words[i].length();
-    }
-}
-
-void Sort(int cnt, std::string words[N_max], int CountLetters[N_max])
+void Sort(int cnt, std::string words[N_max])
 {
     for (int i = 0; i < cnt - 1; i++)
     {
         for (int j = i + 1; j < cnt; j++)
         {
-            if (CountLetters[i] < CountLetters[j])
+            if (words[i].length() < words[j].length())
             {
                 std::swap(words[i], words[j]);
-                std::swap(CountLetters[i], CountLetters[j]);
             }
         }
     }
@@ -111,14 +101,14 @@ void Sort(int cnt, std::string words[N_max], int CountLetters[N_max])
 
 bool Write(int n, std::string words[N_max])
 {
-    std::ofstream outt("output.txt");
-    if (!outt.is_open())
+    std::ofstream out("output.txt");
+    if (!out.is_open())
     {
         return false;
     }
     for (int i = 0; i < n; i++)
     {
-        outt << words[i] << std::endl;
+        out << words[i] << std::endl;
     }
     return true;
 }
