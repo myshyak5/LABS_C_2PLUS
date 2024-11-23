@@ -58,10 +58,10 @@ bool IsPalindromMoreOneLetter(int cnt, std::string words[N_max])
 }
 void ClearGl(int cnt, std::string words[N_max])
 {
-    char gl[10] = {'A', 'E', 'I', 'O', 'U', 'a', 'e', 'i', 'o', 'u'};
+    char gl[12] = {'A', 'E', 'I', 'O', 'U', 'Y', 'a', 'e', 'i', 'o', 'u', 'y'};
     for (int i = 0; i < cnt; i++)
     {
-        for (int j = 0; j < 10; j++)
+        for (int j = 0; j < 12; j++)
         {
             std::size_t index = words[i].find(gl[j]);
             while (index != std::string::npos)
@@ -71,6 +71,19 @@ void ClearGl(int cnt, std::string words[N_max])
             }
         }
     }
+}
+void ClearEmpty(int& cnt, std::string words[N_max])
+{
+    int g = 0;
+    for (int i = 0; i < cnt; i++)
+    {
+        if (!words[i].empty())
+        {
+            words[g] = words[i];
+            g++;
+        }
+    }
+    cnt = g;
 }
 void CountOfSogl(int cnt, std::string words[N_max], int CountSogl[N_max])
 {
@@ -109,28 +122,18 @@ void SortPalindrom(int cnt, std::string words[N_max], int CountSogl[N_max])
     {
         for (int j = i + 1; j < cnt; j++)
         {
-            int m_max = std::min(words[i].length(), words[j].length());
-            for (int m = 0; m < m_max; m++)
+            if (words[i] < words[j])
             {
-                if ((int)((char)words[i][m]) > (int)((char)words[j][m]))
-                {
-                    std::swap(words[i], words[j]);
-                    break;
-                }
+                std::swap(words[i], words[j]);
             }
         }
     }
 }
 bool Write(int cnt, std::string words[N_max])
 {
-    std::ofstream outt("output.txt");
-    if (!outt.is_open())
-    {
-        return false;
-    }
     for (int i = 0; i < cnt; i++)
     {
-        outt << words[i] << " ";
+        std::cout << words[i] << "\n";
     }
     return true;
 }
