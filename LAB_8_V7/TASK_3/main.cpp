@@ -13,7 +13,7 @@ int main()
     std::ofstream out("output.txt");
     if (!out.is_open())
     {
-        std::cerr << "Input File Error" << std::endl;
+        std::cerr << "Output File Error" << std::endl;
         return -1;
     }
     for (int i = 0; i < cnt; i++)
