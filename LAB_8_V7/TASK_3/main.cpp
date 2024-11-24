@@ -39,14 +39,14 @@ int main()
             }
             else
             {
-                if (wordsij != ' ')
+                if ((wordsij != ' ') && (wordsij != '-'))
                 {
                     signs += wordsij;
                 }
                 else
                 {
                     FourDiffLet(word, glasnie, let_a, let_e, let_i, let_o, let_u, let_y);
-                    result += word + signs + " ";
+                    result += word + signs + wordsij;
                     Null(word, signs, glasnie, let_a, let_e, let_i, let_o, let_u, let_y);
                 }
             }
