@@ -39,7 +39,7 @@ int main()
             }
             else
             {
-                if ((wordsij != ' ') && (wordsij != '-'))
+                if ((wordsij != ' ') && (wordsij != '-') && (!std::isdigit(wordsij)))
                 {
                     signs += wordsij;
                 }
