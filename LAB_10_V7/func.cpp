@@ -93,12 +93,11 @@ namespace mt
 
     bool IsOneFirstDigit(int elem)
     {
-        int e = elem;
-        while (e > 9)
+        while (elem > 9)
         {
-            e /= 10;
+            elem /= 10;
         }
-        if (e == 1)
+        if (elem == 1)
         {
             return true;
         }
