@@ -64,7 +64,7 @@ namespace mt
 
     void Double(Node* head)
     {
-        Node *p = head;
+        Node *p = head->next;
         while (p != nullptr)
         {
             if (IsPrime(p->data))
