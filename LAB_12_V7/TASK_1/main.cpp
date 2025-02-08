@@ -8,7 +8,7 @@ int Max(int m, int k)
     }
     return k;
 }
-size_t f(int n)
+int f(int n)
 {
     if (n == 0)
     {
