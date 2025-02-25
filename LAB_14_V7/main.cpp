@@ -115,27 +115,32 @@ std::ostream& operator<<(std::ostream& out, const BigInt& other) {
   return out;
 }
 int main() {
-  BigInt x;
-  BigInt y;
+  BigInt x, y;
   std::cin >> x >> y;
 
-  x += y;
-  x *= y;
   BigInt z_plus = x + y;
   BigInt z_mult = x * y;
-  std::cout << z_plus << std::endl;
-  std::cout << z_mult << std::endl;
+
+  std::cout << "Sum: " << z_plus << std::endl;
+  std::cout << "Product: " << z_mult << std::endl;
+
   if (x < y) {
-    std::cout << "less" << std::endl;
+    std::cout << "x < y" << std::endl;
   }
   if (x > y) {
-    std::cout << "bigger" << std::endl;
+    std::cout << "x > y" << std::endl;
+  }
+  if (x <= y) {
+    std::cout << "x <= y" << std::endl;
+  }
+  if (x >= y) {
+    std::cout << "x >= y" << std::endl;
   }
   if (x == y) {
-    std::cout << "equals" << std::endl;
+    std::cout << "x == y" << std::endl;
   }
   if (x != y) {
-    std::cout << "not equals" << std::endl;
+    std::cout << "x != y" << std::endl;
   }
   return 0;
 }
