@@ -3,24 +3,24 @@
 class Parallelogram
 {
     private:
-        int _a, _b;
+        double _a, _b, _h;
     public:
-        Parallelogram(int a, int b): _a(a), _b(b) {}
-        int getPerimeter()
+        Parallelogram(double a, double b, double h): _a(a), _b(b), _h(h) {}
+        double getPerimeter()
         {
             return 2 * (_a + _b);
         }
-        int getSquare()
+        double getSquare()
         {
-            return _a * _b;
+            return _a * _h;
         }
 };
 int main()
 {
-    int a, b;
-    std::cin >> a >> b;
+    double a, b, h;
+    std::cin >> a >> b >> h;
 
-    Parallelogram par1(a, b);
+    Parallelogram par1(a, b, h);
     std::cout << "Perimetr: " << par1.getPerimeter() << std::endl;
     std::cout << "Square: " << par1.getSquare() << std::endl;
 
