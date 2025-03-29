@@ -19,7 +19,7 @@ public:
     MatrixFill();
   }
   template<unsigned short OTHER_N, unsigned short OTHER_M>
-  Matrix(const Matrix& other): m_N(OTHER_N), m_M(OTHER_M) {
+  Matrix(const Matrix<T, OTHER_N, OTHER_M>& other): m_N(OTHER_N), m_M(OTHER_M) {
     MatrixFill();
     for (unsigned short i = 0; i < 3; i++) {
       for (unsigned short j = 0; j < 3; j++) {
