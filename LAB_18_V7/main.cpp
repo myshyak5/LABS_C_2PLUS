@@ -18,7 +18,7 @@ int main()
 
     circle.setPosition({50.f, 75.f});
     rectangle.setPosition({200.f, 75.f});
-    triangle.setPosition({350.f, 75.5f});
+    triangle.setPosition({350.f, 75.f});
 
     rectangle.setRotation(sf::Angle(sf::degrees(45)));
     triangle.setRotation(sf::Angle(sf::degrees(90)));
