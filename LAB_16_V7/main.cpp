@@ -1,4 +1,4 @@
-﻿#include <iostream>
+#include <iostream>
 #include <stdexcept>
 
 template<typename T, unsigned short N, unsigned short M>
@@ -18,8 +18,7 @@ public:
   Matrix(): m_N(N), m_M(M) {
     MatrixFill();
   }
-  template<unsigned short OTHER_N, unsigned short OTHER_M>
-  Matrix(const Matrix<T, OTHER_N, OTHER_M>& other): m_N(OTHER_N), m_M(OTHER_M) {
+  Matrix(const Matrix& other): m_N(other.m_N), m_M(other.m_M) {
     MatrixFill();
     for (unsigned short i = 0; i < 3; i++) {
       for (unsigned short j = 0; j < 3; j++) {
@@ -27,8 +26,7 @@ public:
       }
     }
   }
-  template<unsigned short OTHER_N, unsigned short OTHER_M>
-  Matrix& operator=(const Matrix<T, OTHER_N, OTHER_M>& other) {
+  Matrix& operator=(const Matrix& other) {
     MatrixFill();
     if (this != &other) {
       for (unsigned short i = 0; i < 3; i++) {
@@ -37,8 +35,8 @@ public:
         }
       }
     }
-    m_N = OTHER_N;
-    m_M = OTHER_M;
+    m_N = other.m_N;
+    m_M = other.m_M;
     return *this;
   }
   Matrix& operator+=(const Matrix& other) {
@@ -145,7 +143,7 @@ int main() {
     mx1 *= mx3;
     std::cout << mx1 << std::endl;
     std::cout << mx1(0, 0) << std::endl;
-    std::cout << mx1.det() << std::endl;
+    std::cout << mx3.det() << std::endl;
   }
   catch (const std::exception& e) {
     std::cerr << e.what() << std::endl;
