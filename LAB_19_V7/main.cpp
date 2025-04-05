@@ -25,7 +25,7 @@ class Block {
             return false;
         }
     };
-std::vector<Block> createBlocks(float circleRadius, int blockCount, float gap, float value_Y) {
+std::vector<Block> createBlocks(float circleRadius, int blockCount, int gap, float value_Y) {
     std::vector<Block> blocks;
     float start_X = (WINDOW_WIDTH - (blockCount * circleRadius * 2 + (blockCount - 1) * gap)) / 2;
     for (int i = 0; i < blockCount; i++) {
@@ -61,29 +61,29 @@ int main() {
     
     std::vector<Block> blocks;
     float AllBlocks = 0;
-    for (int i = 0; i < 6; i++) {
-        float blockCount = (i % 2 == 0) ? (17 - i) : (15 - i);
+    for (unsigned short i = 0; i < 6; i++) {
+        float blockCount = (i % 2 == 0) ? (WINDOW_WIDTH / (ball.getRadius() * 2) - i) : (WINDOW_WIDTH / (ball.getRadius() * 2) - 2 - i);
+        blockCount -= (WINDOW_WIDTH / 100 * (blockCount - 1)) / (ball.getRadius() * 2);
         AllBlocks += blockCount;
-        std::vector<Block> newBlocks = createBlocks(platform.getSize().x / 6, blockCount, WINDOW_WIDTH / 100, i);
+        std::vector<Block> newBlocks = createBlocks(ball.getRadius(), blockCount, WINDOW_WIDTH / 100, i);
         blocks.insert(blocks.end(), newBlocks.begin(), newBlocks.end());
     }
 
     Clock clock;
+    float platformMove = 1;
     float FirstDeltaTime = clock.restart().asSeconds();
     float deltaTime = FirstDeltaTime;
-    float PlatformMove = 1;
     while (window.isOpen()) {
-        
         while (const auto event = window.pollEvent()) {
             if (event->is<Event::Closed>()){
                 window.close();
             }
             if (const auto* keyPressed = event->getIf<sf::Event::KeyPressed>()) {
                 if (keyPressed->scancode == sf::Keyboard::Scan::Left && (platform.getPosition().x > platform.getSize().x / 2)) {
-                    platform.move({-(platform.getSize().x / 10) * PlatformMove, 0});
+                    platform.move({-(platform.getSize().x / 10) * platformMove, 0});
                 }
                 if (keyPressed->scancode == sf::Keyboard::Scan::Right && (platform.getPosition().x < WINDOW_WIDTH - platform.getSize().x / 2)) {
-                    platform.move({platform.getSize().x / 10 * PlatformMove, 0});
+                    platform.move({platform.getSize().x / 10 * platformMove, 0});
                 }
             }
         }
@@ -117,10 +117,10 @@ int main() {
             if (block.checkCollision(ball)) {
                 AllBlocks--;
                 velocity.y = -velocity.y;
-                blocksBreak.setString(std::to_string(count));
                 count++;
+                blocksBreak.setString(std::to_string(count));
                 deltaTime *= (1 + 1 / AllBlocks);
-                PlatformMove *= (1 + 1 / AllBlocks);
+                platformMove *= (1 + 1 / AllBlocks);
                 break;
             }
         }
