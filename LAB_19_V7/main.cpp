@@ -51,7 +51,7 @@ int main() {
     RectangleShape platform({WINDOW_WIDTH / 10.f, WINDOW_HEIGHT / 20.f});
     platform.setFillColor(Color::Red);
     platform.setOrigin(platform.getSize() / 2.f);
-    platform.setPosition({WINDOW_WIDTH / 2.f, window.getSize().y * 0.85f});
+    platform.setPosition({WINDOW_WIDTH / 2.f, WINDOW_HEIGHT * 0.85f});
 
     CircleShape ball(platform.getSize().x / 6);
     ball.setFillColor(Color::Green);
