@@ -27,11 +27,11 @@ class Block {
     };
 std::vector<Block> createBlocks(float circleRadius, int blockCount, int gap, float value_Y) {
     std::vector<Block> blocks;
-    float start_X = (WINDOW_WIDTH - (blockCount * circleRadius * 2 + (blockCount - 1) * gap)) / 2;
+    float start_X = ((WINDOW_WIDTH - (blockCount * circleRadius * 2 + (blockCount - 1) * gap)) / 2) + circleRadius;
     for (int i = 0; i < blockCount; i++) {
         Block block({circleRadius * 2, circleRadius});
         block.shape.setOrigin(block.shape.getSize() / 2.f);
-        block.shape.setPosition({start_X + (circleRadius * 2 + gap) * i, WINDOW_HEIGHT * 0.1f + block.shape.getSize().y * value_Y + (value_Y != 0 ? gap * value_Y: 0)});
+        block.shape.setPosition({start_X + (circleRadius * 2 + gap) * i, WINDOW_HEIGHT / 10.f + block.shape.getSize().y * value_Y + (value_Y != 0 ? gap * value_Y: 0)});
         blocks.push_back(block);
     }
     return blocks;
@@ -43,9 +43,9 @@ int main() {
     unsigned int count = 0;
     Font font("C:\\Git\\LABS_C_2PLUS\\LAB_19_V7\\fonts\\arial.ttf");
     Text blocksBreak(font);
-    blocksBreak.setCharacterSize(50);
+    blocksBreak.setCharacterSize(WINDOW_HEIGHT / 20.f);
     blocksBreak.setFillColor(Color::Cyan);
-    blocksBreak.setPosition({25.f, 25.f});
+    blocksBreak.setPosition({WINDOW_WIDTH / 2.f, 0});
     blocksBreak.setString(std::to_string(count));
 
     RectangleShape platform({WINDOW_WIDTH / 10.f, WINDOW_HEIGHT / 20.f});
@@ -57,19 +57,20 @@ int main() {
     ball.setFillColor(Color::Green);
     ball.setOrigin({ball.getRadius(), ball.getRadius()});
     ball.setPosition({platform.getPosition().x, platform.getPosition().y - (platform.getSize().y / 2.f + ball.getRadius())});
-    Vector2f velocity(WINDOW_WIDTH / 6.f, WINDOW_WIDTH / 6.f);
+    Vector2f initVelocity(WINDOW_WIDTH / 10.f, WINDOW_WIDTH / 10.f);
+    Vector2f velocity = initVelocity;
     
     std::vector<Block> blocks;
     float AllBlocks = 0;
-    for (unsigned short i = 0; i < 6; i++) {
-        float gap = ball.getRadius();
-        unsigned int size = WINDOW_WIDTH - ball.getRadius() * 2;
-        unsigned int blockCount = 1;
-        while (size > gap) {
-            size -= gap;
-            if (size > ball.getRadius() * 2) {
-                size -= ball.getRadius() * 2;
-                blockCount++;
+    for (unsigned short i = 0; i < 5; i++) {
+        float gap = ball.getRadius() * 1.5;
+        float size = WINDOW_WIDTH;
+        unsigned int blockCount = 0;
+        while (size > ball.getRadius() * 2) {
+            size -= ball.getRadius() * 2;
+            blockCount++;
+            if (size > gap) {
+                size -= gap;
             }
         }
         if (i % 2 != 0) {
@@ -81,26 +82,26 @@ int main() {
         blocks.insert(blocks.end(), newBlocks.begin(), newBlocks.end());
     }
 
+    float initPlatformMove = 1.f;
+    float platformMove = initPlatformMove;
     Clock clock;
-    float platformMove = 1;
-    float FirstDeltaTime = clock.restart().asSeconds();
-    float deltaTime = FirstDeltaTime;
     while (window.isOpen()) {
+        const Time deltaTime = clock.restart();
         while (const auto event = window.pollEvent()) {
-            if (event->is<Event::Closed>()){
+            if ((event->is<Event::Closed>()) || (AllBlocks == 0)) {
                 window.close();
             }
             if (const auto* keyPressed = event->getIf<sf::Event::KeyPressed>()) {
                 if (keyPressed->scancode == sf::Keyboard::Scan::Left && (platform.getPosition().x > platform.getSize().x / 2)) {
-                    platform.move({-(platform.getSize().x / 10) * platformMove, 0});
+                    platform.move({-(platform.getSize().x / 12) * platformMove, 0});
                 }
                 if (keyPressed->scancode == sf::Keyboard::Scan::Right && (platform.getPosition().x < WINDOW_WIDTH - platform.getSize().x / 2)) {
-                    platform.move({platform.getSize().x / 10 * platformMove, 0});
+                    platform.move({platform.getSize().x / 12 * platformMove, 0});
                 }
             }
         }
 
-        ball.move(velocity * deltaTime * 10000.f);
+        ball.move(velocity * deltaTime.asSeconds());
 
         if (ball.getPosition().x - ball.getRadius() < 0 || ball.getPosition().x + ball.getRadius() > WINDOW_WIDTH) {
             velocity.x = -velocity.x;
@@ -118,21 +119,21 @@ int main() {
             ball.setPosition({platform.getPosition().x, platform.getPosition().y - (platform.getSize().y / 2.f + ball.getRadius())});
             count = 0;
             blocksBreak.setString(std::to_string(count));
-            deltaTime = FirstDeltaTime;
             for (Block& block : blocks) {
                 if (!block.isActive) {
                     block.isActive = true;
                 }
             }
+            velocity = initVelocity;
+            platformMove = initPlatformMove;
         }
         for (Block& block : blocks) {
             if (block.checkCollision(ball)) {
-                AllBlocks--;
                 velocity.y = -velocity.y;
                 count++;
                 blocksBreak.setString(std::to_string(count));
-                deltaTime *= (1 + 1 / AllBlocks);
-                platformMove *= (1 + 1 / AllBlocks);
+                velocity *= 1 + 1 / (AllBlocks / 2);
+                platformMove *= 1 + 1 / (AllBlocks / 2);
                 break;
             }
         }
