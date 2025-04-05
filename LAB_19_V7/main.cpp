@@ -62,10 +62,22 @@ int main() {
     std::vector<Block> blocks;
     float AllBlocks = 0;
     for (unsigned short i = 0; i < 6; i++) {
-        float blockCount = (i % 2 == 0) ? (WINDOW_WIDTH / (ball.getRadius() * 2) - i) : (WINDOW_WIDTH / (ball.getRadius() * 2) - 2 - i);
-        blockCount -= (WINDOW_WIDTH / 100 * (blockCount - 1)) / (ball.getRadius() * 2);
+        float gap = ball.getRadius();
+        unsigned int size = WINDOW_WIDTH - ball.getRadius() * 2;
+        unsigned int blockCount = 1;
+        while (size > gap) {
+            size -= gap;
+            if (size > ball.getRadius() * 2) {
+                size -= ball.getRadius() * 2;
+                blockCount++;
+            }
+        }
+        if (i % 2 != 0) {
+            blockCount -= 2;
+        }
+        blockCount -= i;
         AllBlocks += blockCount;
-        std::vector<Block> newBlocks = createBlocks(ball.getRadius(), blockCount, WINDOW_WIDTH / 100, i);
+        std::vector<Block> newBlocks = createBlocks(ball.getRadius(), blockCount, gap, i);
         blocks.insert(blocks.end(), newBlocks.begin(), newBlocks.end());
     }
 
