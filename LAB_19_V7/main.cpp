@@ -91,11 +91,11 @@ int main() {
             if ((event->is<Event::Closed>()) || (AllBlocks == 0)) {
                 window.close();
             }
-            if (const auto* keyPressed = event->getIf<sf::Event::KeyPressed>()) {
-                if (keyPressed->scancode == sf::Keyboard::Scan::Left && (platform.getPosition().x > platform.getSize().x / 2)) {
+            if (const auto* keyPressed = event->getIf<Event::KeyPressed>()) {
+                if (keyPressed->scancode == Keyboard::Scan::Left && (platform.getPosition().x > platform.getSize().x / 2)) {
                     platform.move({-(platform.getSize().x / 12) * platformMove, 0});
                 }
-                if (keyPressed->scancode == sf::Keyboard::Scan::Right && (platform.getPosition().x < WINDOW_WIDTH - platform.getSize().x / 2)) {
+                if (keyPressed->scancode == Keyboard::Scan::Right && (platform.getPosition().x < WINDOW_WIDTH - platform.getSize().x / 2)) {
                     platform.move({platform.getSize().x / 12 * platformMove, 0});
                 }
             }
